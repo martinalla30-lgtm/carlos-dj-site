@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ Carlos | Bringing the Beat to Mexico City &amp; Beyond</title>
+<meta name="description" content="DJ Carlos: upcoming shows, mixes and bookings. Bringing the Beat to Mexico City & Beyond.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="player.css">
+<link rel="stylesheet" href="footer.css">
+<link rel="stylesheet" href="loader.css">
+<script src="loader.js"></script>
+<link rel="stylesheet" href="reveal.css">
+<script src="reveal.js"></script>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0D0D0D;
+    --violet: #8B5CF6;
+    --pink: #EC4899;
+    --text: #F7F4FB;
+    --muted: #BDB6CB;
+    --line: rgba(255, 255, 255, .14);
+    --panel: rgba(20, 16, 26, .72);
+    --gutter: clamp(16px, 4vw, 48px);
+    --edge: max(var(--gutter), calc((100vw - 1200px) / 2));
+    --bar: 4 * 60s / 124; /* one 4/4 bar at 124 BPM */
+    --display: "Anton", Impact, "Arial Narrow", sans-serif;
+    --label: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Barlow", system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 1.0625rem/1.55 var(--body);
+    overflow-x: clip;
+  }
+  h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+  ul, ol { list-style: none; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid #fff; outline-offset: 3px; border-radius: 4px; }
+  [id] { scroll-margin-top: 72px; }
+
+  /* Animated gradient */
+  .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
+  .aurora i {
+    position: absolute;
+    width: 95vmax;
+    height: 95vmax;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .aurora i:nth-child(1) {
+    top: -45vmax;
+    left: -30vmax;
+    background: radial-gradient(closest-side, rgba(139, 92, 246, .62), transparent);
+    animation: drift-a 19s ease-in-out infinite alternate;
+  }
+  .aurora i:nth-child(2) {
+    right: -35vmax;
+    bottom: -50vmax;
+    background: radial-gradient(closest-side, rgba(236, 72, 153, .5), transparent);
+    animation: drift-b 23s ease-in-out infinite alternate;
+  }
+  .aurora i:nth-child(3) {
+    top: 15%;
+    left: 30%;
+    width: 60vmax;
+    height: 60vmax;
+    background: radial-gradient(closest-side, rgba(236, 72, 153, .24), transparent);
+    animation: drift-c 29s ease-in-out infinite alternate;
+  }
+  @keyframes drift-a { to { transform: translate(38vw, 28vh) scale(1.15); } }
+  @keyframes drift-b { to { transform: translate(-42vw, -32vh) scale(1.2); } }
+  @keyframes drift-c { to { transform: translate(-40vw, 20vh) scale(.8); } }
+
+  /* Navigation */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(13, 13, 13, .62);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+    padding-inline: var(--edge);
+  }
+  .brand {
+    font: 400 1.3rem/1 var(--display);
+    letter-spacing: .03em;
+    text-decoration: none;
+    white-space: nowrap;
+    text-shadow: 0 0 14px var(--pink);
+  }
+  .nav ul { display: flex; gap: clamp(2px, 2vw, 20px); }
+  .nav li a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 10px;
+    font: 600 1.05rem/1 var(--label);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    box-shadow: inset 0 -2px 0 transparent;
+    transition: color .2s, box-shadow .2s;
+  }
+  .nav li a:hover, .nav li a[aria-current] {
+    color: #fff;
+    box-shadow: inset 0 -2px 0 var(--pink);
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 61px - var(--sp-bar));
+    min-height: calc(100svh - 61px - var(--sp-bar));
+    padding: 40px var(--gutter) 116px;
+    text-align: center;
+  }
+  .neon {
+    position: relative;
+    margin: 0;
+    font: 400 clamp(3.5rem, min(20vw, 40vh), 17rem)/1.08 var(--display);
+    letter-spacing: .012em;
+    white-space: nowrap;
+    color: #FFF6FC;
+    text-shadow:
+      0 0 .012em #fff,
+      0 0 .05em #FFB3DD,
+      0 0 .11em var(--pink),
+      0 0 .24em var(--pink);
+    animation: switch-on 1.5s linear both;
+  }
+  .neon-halo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: var(--violet);
+    filter: blur(.09em);
+    text-shadow: 0 0 .22em var(--violet), 0 0 .5em var(--pink);
+    animation: pulse calc(var(--bar)) ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .62; }
+    50% { opacity: 1; }
+  }
+  @keyframes switch-on {
+    0%, 8% { opacity: .1; }
+    10% { opacity: .95; }
+    13%, 26% { opacity: .18; }
+    28% { opacity: 1; }
+    33% { opacity: .35; }
+    37%, 100% { opacity: 1; }
+  }
+  .tagline {
+    max-width: 30ch;
+    margin-top: clamp(10px, 2vh, 22px);
+    font: 500 clamp(1.3rem, 3.4vw, 2.1rem)/1.2 var(--label);
+    letter-spacing: .03em;
+    text-wrap: balance;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: 0 38px;
+    border-radius: 999px;
+    background: linear-gradient(100deg, var(--pink), #C26BF2 55%, var(--violet));
+    color: var(--bg);
+    font: 700 1.3rem/1 var(--label);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 0 22px rgba(236, 72, 153, .65), 0 0 60px rgba(139, 92, 246, .45);
+    transition: transform .18s, box-shadow .18s;
+  }
+  .btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 30px rgba(236, 72, 153, .95), 0 0 80px rgba(139, 92, 246, .7);
+  }
+  .btn:active { transform: scale(.98); }
+  .hero .btn { margin-top: clamp(24px, 4.5vh, 40px); }
+
+  .eq {
+    position: absolute;
+    inset: auto 0 0;
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(2px, .4vw, 5px);
+    height: 84px;
+    padding-inline: var(--gutter);
+    opacity: .85;
+  }
+  .eq span {
+    flex: 1;
+    height: 100%;
+    border-radius: 2px 2px 0 0;
+    transform-origin: bottom;
+    animation: eq var(--d) ease-in-out var(--o) infinite alternate;
+  }
+  @keyframes eq {
+    from { transform: scaleY(.08); }
+    to { transform: scaleY(var(--h)); }
+  }
+
+  /* Sections */
+  .section { padding-block: clamp(56px, 9vw, 104px); }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: clamp(20px, 3vw, 32px);
+    padding-inline: var(--edge);
+    position: relative;
+    z-index: 1; /* keeps the carousel arrows clickable above the carousel's extra padding */
+  }
+  h2 {
+    font: 400 clamp(2.5rem, 7vw, 4.5rem)/1.05 var(--display);
+    letter-spacing: .012em;
+    text-transform: uppercase;
+  }
+  .wrap { padding-inline: var(--edge); }
+
+  /* Shows */
+  .arrows { display: flex; gap: 8px; }
+  .arrows[hidden] { display: none; }
+  .arrows button {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--panel);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, opacity .2s;
+  }
+  .arrows button:hover:not(:disabled) { border-color: var(--pink); box-shadow: 0 0 16px rgba(236, 72, 153, .6); }
+  .arrows button:disabled { opacity: .35; cursor: default; }
+  @media (hover: none), (max-width: 699px) { .arrows { display: none; } }
+
+  .shows {
+    display: flex;
+    gap: 16px;
+    /* A scroller clips in every direction, so this leaves room for the raised card's glow and shadow */
+    margin-block: -32px -34px;
+    padding: 40px var(--edge) 56px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--edge);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--pink) transparent;
+  }
+  .show {
+    position: relative;
+    flex: 0 0 clamp(258px, 76vw, 318px);
+    display: flex;
+    flex-direction: column;
+    min-height: 318px;
+    padding: 22px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+    scroll-snap-align: start;
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  }
+  .show::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--violet));
+  }
+  /* Raised card: hover with a mouse, or from the start of a touch (set in the script below) */
+  .show.is-touched {
+    z-index: 1;
+    transform: translateY(-6px) scale(1.03);
+    border-color: rgba(236, 72, 153, .85);
+    box-shadow: 0 20px 44px rgba(0, 0, 0, .6), 0 0 26px rgba(236, 72, 153, .6), 0 0 56px rgba(236, 72, 153, .28);
+    transition-duration: .12s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .show:hover {
+      z-index: 1;
+      transform: translateY(-6px) scale(1.03);
+      border-color: rgba(236, 72, 153, .85);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, .6), 0 0 26px rgba(236, 72, 153, .6), 0 0 56px rgba(236, 72, 153, .28);
+    }
+  }
+  .date { display: flex; align-items: flex-end; gap: 12px; }
+  .date .day {
+    font: 400 5.5rem/.95 var(--display);
+    color: #fff;
+    text-shadow: 0 0 18px rgba(236, 72, 153, .75);
+  }
+  .date .rest {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+    font: 600 1.15rem/1.15 var(--label);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .venue {
+    margin-top: 22px;
+    font: 700 1.65rem/1.1 var(--label);
+    letter-spacing: .015em;
+  }
+  .city { margin-top: 4px; color: var(--muted); }
+  .type {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 6px 12px;
+    border: 1px solid rgba(236, 72, 153, .65);
+    border-radius: 999px;
+    font: 600 .95rem/1 var(--label);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #FFC2E3;
+  }
+
+  /* Booking */
+  .book { text-align: center; }
+  .book h2 { text-shadow: 0 0 .14em var(--pink), 0 0 .4em var(--violet); }
+  .book p { max-width: 44ch; margin: 14px auto 28px; color: var(--muted); }
+  .book .btn { padding-inline: clamp(24px, 6vw, 38px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .eq span { transform: scaleY(calc(var(--h) * .7)); }
+    .show.is-touched, .show:hover { transform: none !important; } /* the glow stays, the movement doesn't */
+    .neon-halo { opacity: .85; }
+  }
+</style>
+</head>
+<body>
+<div class="page-loader" id="page-loader" role="status" aria-label="Loading">
+  <div class="page-loader-logo" aria-hidden="true">DJ CARLOS</div>
+  <div class="page-loader-bar" aria-hidden="true"><i></i></div>
+</div>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="site-header">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="#home">DJ CARLOS</a>
+    <ul>
+      <li><a href="#home" aria-current="page">Home</a></li>
+      <li><a href="mixes.html">Mixes</a></li>
+      <li><a href="booking.html">Book</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <h1 class="neon">DJ CARLOS<span class="neon-halo" aria-hidden="true">DJ CARLOS</span></h1>
+    <p class="tagline">Bringing the Beat to Mexico City &amp; Beyond.</p>
+    <a class="btn" href="booking.html">Book Now</a>
+    <div class="eq" id="eq" aria-hidden="true"></div>
+  </section>
+
+  <section class="section" id="shows" aria-labelledby="shows-title">
+    <div class="section-head" data-reveal>
+      <h2 id="shows-title">Upcoming Shows</h2>
+      <div class="arrows" id="arrows" hidden>
+        <button type="button" id="prev" aria-label="Previous shows">&#8592;</button>
+        <button type="button" id="next" aria-label="Next shows">&#8594;</button>
+      </div>
+    </div>
+    <!-- PLACEHOLDER DATA: replace the dates, venues and event types with DJ Carlos's real shows. -->
+    <ul class="shows" id="show-list" data-reveal-stagger tabindex="0" aria-label="Upcoming shows, scrollable">
+      <li class="show" data-reveal>
+        <time class="date" datetime="2026-11-14"><span class="day">14</span><span class="rest"><span>Nov</span><span>Sat</span></span></time>
+        <h3 class="venue">Club Eléctrica</h3>
+        <p class="city">Condesa, Mexico City</p>
+        <p class="type">Club Night</p>
+      </li>
+      <li class="show" data-reveal>
+        <time class="date" datetime="2026-11-28"><span class="day">28</span><span class="rest"><span>Nov</span><span>Sat</span></span></time>
+        <h3 class="venue">Terraza Nocturna</h3>
+        <p class="city">Roma Norte, Mexico City</p>
+        <p class="type">Rooftop Party</p>
+      </li>
+      <li class="show" data-reveal>
+        <time class="date" datetime="2026-12-12"><span class="day">12</span><span class="rest"><span>Dec</span><span>Sat</span></span></time>
+        <h3 class="venue">Bodega 19</h3>
+        <p class="city">Guadalajara</p>
+        <p class="type">Warehouse Set</p>
+      </li>
+      <li class="show" data-reveal>
+        <time class="date" datetime="2026-12-31"><span class="day">31</span><span class="rest"><span>Dec</span><span>Thu</span></span></time>
+        <h3 class="venue">Azotea Centro</h3>
+        <p class="city">Centro Histórico, Mexico City</p>
+        <p class="type">New Year's Eve</p>
+      </li>
+      <li class="show" data-reveal>
+        <time class="date" datetime="2027-01-16"><span class="day">16</span><span class="rest"><span>Jan</span><span>Sat</span></span></time>
+        <h3 class="venue">Playa Luz</h3>
+        <p class="city">Tulum</p>
+        <p class="type">Beach Festival</p>
+      </li>
+      <li class="show" data-reveal>
+        <time class="date" datetime="2027-02-06"><span class="day">06</span><span class="rest"><span>Feb</span><span>Sat</span></span></time>
+        <h3 class="venue">Sala Norte</h3>
+        <p class="city">Monterrey</p>
+        <p class="type">Club Night</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section wrap book" id="book" aria-labelledby="book-title">
+    <h2 id="book-title" data-reveal>Book DJ Carlos</h2>
+    <p data-reveal>Clubs, festivals and private events, in Mexico City and on the road.</p>
+    <a class="btn" href="booking.html" data-reveal>Book Now</a>
+  </section>
+</main>
+
+<footer class="site-footer" data-reveal="fade">
+  <!-- PLACEHOLDERS: replace the four platform home page links with DJ Carlos's own profile URLs, and carlos@example.com with the real contact address. -->
+  <ul class="footer-social" aria-label="Social media">
+    <li><a href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.175 12.225c-.051 0-.094.046-.101.1l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.27-2.154c0-.057-.045-.1-.09-.1m-.899.828c-.06 0-.091.037-.104.094L0 14.479l.165 1.308c0 .055.045.094.09.094s.089-.045.104-.104l.21-1.319-.21-1.334c0-.061-.044-.09-.09-.09m1.83-1.229c-.061 0-.12.045-.12.104l-.21 2.563.225 2.458c0 .06.045.12.119.12.061 0 .105-.061.121-.12l.254-2.474-.254-2.548c-.016-.06-.061-.12-.121-.12m.945-.089c-.075 0-.135.06-.15.135l-.193 2.64.21 2.544c.016.077.075.138.149.138.075 0 .135-.061.15-.15l.24-2.532-.24-2.623c0-.075-.06-.135-.135-.135l-.031-.017zm1.155.36c-.005-.09-.075-.149-.159-.149-.09 0-.158.06-.164.149l-.217 2.43.2 2.563c0 .09.075.157.159.157.074 0 .148-.068.148-.158l.227-2.563-.227-2.444.033.015zm.809-1.709c-.101 0-.18.09-.18.181l-.21 3.957.187 2.563c0 .09.08.164.18.164.094 0 .174-.09.18-.18l.209-2.563-.209-3.972c-.008-.104-.088-.18-.18-.18m.959-.914c-.105 0-.195.09-.203.194l-.18 4.872.165 2.548c0 .12.09.209.195.209.104 0 .194-.089.21-.209l.193-2.548-.192-4.856c-.016-.12-.105-.21-.21-.21m.989-.449c-.121 0-.211.089-.225.209l-.165 5.275.165 2.52c.014.119.104.225.225.225.119 0 .225-.105.225-.225l.195-2.52-.196-5.275c0-.12-.105-.225-.225-.225m1.245.045c0-.135-.105-.24-.24-.24-.119 0-.24.105-.24.24l-.149 5.441.149 2.503c.016.135.121.24.256.24s.24-.105.24-.24l.164-2.503-.164-5.456-.016.015zm.749-.134c-.135 0-.255.119-.255.254l-.15 5.322.15 2.473c0 .15.12.255.255.255s.255-.12.255-.27l.15-2.474-.165-5.307c0-.148-.12-.27-.271-.27m1.005.166c-.164 0-.284.135-.284.285l-.103 5.143.135 2.474c0 .149.119.277.284.277.149 0 .271-.12.284-.285l.121-2.443-.135-5.112c-.012-.164-.135-.285-.285-.285m1.184-.945c-.045-.029-.105-.044-.165-.044s-.119.015-.165.044c-.09.054-.149.15-.149.255v.061l-.104 6.048.115 2.449v.008c.008.06.03.135.074.18.058.061.142.104.234.104.08 0 .158-.044.209-.09.058-.06.091-.135.091-.225l.015-.24.117-2.203-.135-6.086c0-.104-.061-.193-.135-.239l-.002-.022zm1.006-.547c-.045-.045-.09-.061-.15-.061-.074 0-.149.016-.209.061-.075.061-.119.15-.119.24v.029l-.137 6.609.076 1.215.061 1.185c0 .164.148.314.328.314.181 0 .33-.15.33-.329l.15-2.414-.15-6.637c0-.12-.074-.221-.165-.277m8.934 3.777c-.405 0-.795.086-1.139.232-.24-2.654-2.46-4.736-5.188-4.736-.659 0-1.305.135-1.889.359-.225.09-.27.18-.285.359v9.368c.016.18.15.33.33.345h8.185C22.681 17.218 24 15.914 24 14.28s-1.319-2.952-2.938-2.952"/></svg></a></li>
+    <li><a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Spotify (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a></li>
+    <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a></li>
+    <li><a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a></li>
+  </ul>
+  <a class="footer-email" href="mailto:carlos@example.com">carlos@example.com</a>
+  <p class="footer-copy">&copy; 2026 DJ Carlos. All rights reserved.</p>
+</footer>
+
+<script>
+// The block scope lets player.js run this again when the page is revisited without a reload
+{
+  // Decorative equalizer
+  const eq = document.getElementById('eq');
+  const barCount = window.innerWidth < 700 ? 32 : 72;
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement('span');
+    const pink = Math.round(Math.abs(i / (barCount - 1) * 2 - 1) * 100);
+    bar.style.background = `color-mix(in srgb, #EC4899 ${pink}%, #8B5CF6)`;
+    bar.style.setProperty('--h', (0.3 + Math.random() * 0.7).toFixed(2));
+    bar.style.setProperty('--d', (0.3 + Math.random() * 0.5).toFixed(2) + 's');
+    bar.style.setProperty('--o', (-Math.random()).toFixed(2) + 's');
+    eq.append(bar);
+  }
+
+  // Show carousel arrows
+  const list = document.getElementById('show-list');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  document.getElementById('arrows').hidden = false;
+  const step = () => list.querySelector('.show').offsetWidth + 16;
+  const syncArrows = () => {
+    prev.disabled = list.scrollLeft <= 2;
+    next.disabled = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+  };
+  prev.addEventListener('click', () => list.scrollBy({ left: -step() }));
+  next.addEventListener('click', () => list.scrollBy({ left: step() }));
+  list.addEventListener('scroll', syncArrows, { passive: true });
+  new ResizeObserver(syncArrows).observe(list);
+  syncArrows();
+
+  // Touch: raise the card as soon as a finger lands on it. The class stays for a moment
+  // after a quick tap, so the animation has time to be seen.
+  const TOUCH_MIN_MS = 180;
+  let touchedCard = null;
+  let touchedAt = 0;
+  const releaseTouch = () => {
+    if (!touchedCard) return;
+    const card = touchedCard;
+    touchedCard = null;
+    setTimeout(() => card.classList.remove('is-touched'), Math.max(0, TOUCH_MIN_MS - (performance.now() - touchedAt)));
+  };
+  list.addEventListener('touchstart', (event) => {
+    const card = event.target.closest('.show');
+    if (!card) return;
+    releaseTouch();
+    card.classList.add('is-touched');
+    touchedCard = card;
+    touchedAt = performance.now();
+  }, { passive: true });
+  list.addEventListener('touchend', releaseTouch, { passive: true });
+  list.addEventListener('touchcancel', releaseTouch, { passive: true }); // also fires when the touch becomes a scroll
+}
+</script>
+<script src="player.js"></script>
+</body>
+</html>

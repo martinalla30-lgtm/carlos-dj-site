@@ -1,0 +1,23 @@
+/* Scroll reveal. Elements are only hidden once reveal.js has switched this on,
+   so without JavaScript, or with reduced motion, everything is simply visible.
+   It uses `translate`, not `transform`, so it can't clash with hover effects. */
+@media (prefers-reduced-motion: no-preference) {
+  html.reveal-on [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+    translate: 0 24px;
+  }
+  /* The last thing on a page only fades: moving it would make the page briefly taller */
+  html.reveal-on [data-reveal="fade"]:not(.is-revealed) { translate: none; }
+
+  [data-reveal].is-revealed {
+    animation: reveal-up .6s cubic-bezier(.2, .7, .2, 1) var(--reveal-delay, 0ms) backwards;
+  }
+  [data-reveal="fade"].is-revealed { animation-name: reveal-fade; }
+}
+
+@keyframes reveal-up { from { opacity: 0; translate: 0 24px; } }
+@keyframes reveal-fade { from { opacity: 0; } }
+
+@media print {
+  html.reveal-on [data-reveal]:not(.is-revealed) { opacity: 1; translate: none; }
+}

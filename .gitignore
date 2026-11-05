@@ -1,0 +1,30 @@
+# Operating system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code local settings
+.claude/
+
+# Secrets and local configuration
+.env
+.env.*
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Tooling, if the project gains any later
+node_modules/
+dist/
+build/
+.cache/
+.netlify/

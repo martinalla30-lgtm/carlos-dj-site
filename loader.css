@@ -1,0 +1,77 @@
+/* First-load screen. Stays hidden unless loader.js has marked the page as loading,
+   so a browser without JavaScript goes straight to the page. */
+.page-loader { display: none; }
+
+html.is-loading { overflow: hidden; scrollbar-gutter: stable; }
+
+html.is-loading .page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vh, 32px);
+  padding: 16px;
+  background:
+    radial-gradient(60vmax 60vmax at 22% 12%, rgba(139, 92, 246, .3), transparent 70%),
+    radial-gradient(60vmax 60vmax at 80% 90%, rgba(236, 72, 153, .24), transparent 70%),
+    #0D0D0D;
+  transition: opacity .5s ease;
+}
+html.is-loading .page-loader.is-done { opacity: 0; pointer-events: none; }
+
+.page-loader-logo {
+  font: 400 clamp(3rem, 15vw, 7.5rem)/1.08 "Anton", Impact, "Arial Narrow", sans-serif;
+  letter-spacing: .012em;
+  white-space: nowrap;
+  color: #FFF6FC;
+  text-shadow:
+    0 0 .012em #fff,
+    0 0 .05em #FFB3DD,
+    0 0 .11em #EC4899,
+    0 0 .24em #EC4899,
+    0 0 .5em #8B5CF6;
+  animation: page-loader-on .9s linear both, page-loader-pulse 1.6s ease-in-out .9s infinite;
+}
+@keyframes page-loader-on {
+  0%, 12% { opacity: .12; }
+  14% { opacity: .95; }
+  20%, 34% { opacity: .22; }
+  36% { opacity: 1; }
+  44% { opacity: .4; }
+  50%, 100% { opacity: 1; }
+}
+@keyframes page-loader-pulse {
+  50% { filter: brightness(1.18) drop-shadow(0 0 .1em rgba(236, 72, 153, .75)); }
+}
+
+.page-loader-bar {
+  width: min(320px, 70vw);
+  height: 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .13);
+  box-shadow: 0 0 18px rgba(139, 92, 246, .4);
+}
+.page-loader-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8B5CF6, #EC4899);
+  box-shadow: 0 0 12px #EC4899;
+  transform-origin: left;
+  /* Real progress can't be known, so it eases towards 85% and loader.js completes it when the page is ready */
+  animation: page-loader-progress 1.4s cubic-bezier(.2, .7, .3, 1) both;
+  transition: transform .25s ease-out;
+}
+@keyframes page-loader-progress {
+  from { transform: scaleX(.04); }
+  to { transform: scaleX(.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader-logo, .page-loader-bar i { animation: none; }
+  .page-loader-bar i { transform: scaleX(.85); }
+}
